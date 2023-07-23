@@ -1,4 +1,4 @@
-module EasyGin
+module easy-gin
 
 go 1.20
 
