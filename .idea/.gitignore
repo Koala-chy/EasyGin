@@ -80,3 +80,7 @@ __debug_bin
 ######################
 .sass-cache/*
 node_modules/
+/EasyGin.iml
+/modules.xml
+/vcs.xml
+/workspace.xml
