@@ -32,7 +32,7 @@ func main() {
 	bootstrap.SetUpTemplate(r)
 
 	// 运行服务，默认为 8080
-	err := r.Run(":" + config.GetConfig("app.port"))
+	err := r.Run(":" + config.GetConfig[string]("app.port"))
 	if err != nil {
 		//打印错误
 		fmt.Println(err.Error())

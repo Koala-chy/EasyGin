@@ -7,7 +7,6 @@ import (
 
 	"easy-gin/pkg/helpers"
 
-	"github.com/spf13/cast"
 	viperLib "github.com/spf13/viper"
 )
 
@@ -86,13 +85,18 @@ func AddConfig(name string, configData ConfigData) {
 	ConfigDatas[name] = configData
 }
 
-// GetConfig 获取配置项
+// GetConfig 使用泛型 获取配置项
 /**
 @params path 允许使用 . 获取配置,如: app.name
 @params defaultValue 允许传参默认值
 */
-func GetConfig(path string, defaultValue ...interface{}) string {
-	return GetString(path, defaultValue...)
+func GetConfig[T any](path string, defaultValue ...interface{}) T {
+	if value := internalGet(path, defaultValue...); value != nil {
+		return value.(T)
+	}
+	// 泛型不能返回 nil，因此需要根据类型建立空变量，这样返回的会是对应类型的"空"值
+	var fallback T
+	return fallback
 }
 
 // 获取配置信息
@@ -107,37 +111,37 @@ func internalGet(path string, defaultValue ...interface{}) interface{} {
 	return viper.Get(path)
 }
 
-// GetString 获取 String 类型的配置信息
-func GetString(path string, defaultValue ...interface{}) string {
-	return cast.ToString(internalGet(path, defaultValue...))
-}
-
-// GetInt 获取 Int 类型的配置信息
-func GetInt(path string, defaultValue ...interface{}) int {
-	return cast.ToInt(internalGet(path, defaultValue...))
-}
-
-// GetFloat64 获取 float64 类型的配置信息
-func GetFloat64(path string, defaultValue ...interface{}) float64 {
-	return cast.ToFloat64(internalGet(path, defaultValue...))
-}
-
-// GetInt64 获取 Int64 类型的配置信息
-func GetInt64(path string, defaultValue ...interface{}) int64 {
-	return cast.ToInt64(internalGet(path, defaultValue...))
-}
-
-// GetUint 获取 Uint 类型的配置信息
-func GetUint(path string, defaultValue ...interface{}) uint {
-	return cast.ToUint(internalGet(path, defaultValue...))
-}
-
-// GetBool 获取 Bool 类型的配置信息
-func GetBool(path string, defaultValue ...interface{}) bool {
-	return cast.ToBool(internalGet(path, defaultValue...))
-}
-
-// GetStringMapString 获取结构数据
-func GetStringMapString(path string) map[string]string {
-	return viper.GetStringMapString(path)
-}
+//// GetString 获取 String 类型的配置信息
+//func GetString(path string, defaultValue ...interface{}) string {
+//	return cast.ToString(internalGet(path, defaultValue...))
+//}
+//
+//// GetInt 获取 Int 类型的配置信息
+//func GetInt(path string, defaultValue ...interface{}) int {
+//	return cast.ToInt(internalGet(path, defaultValue...))
+//}
+//
+//// GetFloat64 获取 float64 类型的配置信息
+//func GetFloat64(path string, defaultValue ...interface{}) float64 {
+//	return cast.ToFloat64(internalGet(path, defaultValue...))
+//}
+//
+//// GetInt64 获取 Int64 类型的配置信息
+//func GetInt64(path string, defaultValue ...interface{}) int64 {
+//	return cast.ToInt64(internalGet(path, defaultValue...))
+//}
+//
+//// GetUint 获取 Uint 类型的配置信息
+//func GetUint(path string, defaultValue ...interface{}) uint {
+//	return cast.ToUint(internalGet(path, defaultValue...))
+//}
+//
+//// GetBool 获取 Bool 类型的配置信息
+//func GetBool(path string, defaultValue ...interface{}) bool {
+//	return cast.ToBool(internalGet(path, defaultValue...))
+//}
+//
+//// GetStringMapString 获取结构数据
+//func GetStringMapString(path string) map[string]string {
+//	return viper.GetStringMapString(path)
+//}
