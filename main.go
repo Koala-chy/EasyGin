@@ -26,6 +26,8 @@ func main() {
 	// 实例化 Gin
 	r := gin.New()
 
+	//初始化数据库配置
+	bootstrap.SetupDB()
 	// 初始化路由绑定
 	bootstrap.InitRoute(r)
 	//模版以及静态资源配置
