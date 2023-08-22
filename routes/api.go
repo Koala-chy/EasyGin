@@ -2,6 +2,7 @@
 package routes
 
 import (
+	"easy-gin/app/controllers/api/auth"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,5 +18,13 @@ func RegisterApiRoutes(r *gin.Engine) {
 				"message": "Hello EasyGin",
 			})
 		})
+
+		//auth 接口组
+		authGroup := apiGroup.Group("/auth")
+		{
+			rc := new(auth.RegisterController)
+			authGroup.POST("/register/phone/exist", rc.CheckPhoneExist)
+		}
+
 	}
 }
