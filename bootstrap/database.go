@@ -51,4 +51,6 @@ func SetupDB() {
 	database.SqlDB.SetMaxIdleConns(config.GetConfig[int]("database.mysql.max_idle_connections"))
 	// 设置每个链接的过期时间
 	database.SqlDB.SetConnMaxLifetime(time.Duration(config.GetConfig[int]("database.mysql.max_life_seconds")) * time.Second)
+
+	//database.DB.AutoMigrate(&user.User{})
 }

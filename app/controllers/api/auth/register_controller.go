@@ -2,7 +2,7 @@
 package auth
 
 import (
-	"easy-gin/app/models/user"
+	"easy-gin/app/models/logic/user"
 	"fmt"
 	"net/http"
 
